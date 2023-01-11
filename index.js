@@ -32,8 +32,7 @@ app.use((req, res, next) => {
 
 app.post("/deposit", async (req, res, next) => {
       const {userId,amount,phone}=req.body
-        // console.log(userId,amount,phone)
-
+    
           const consumer_key = "e9U18oviHqQdAzrIP6jupLtjPTI16OmJ";
           const consumer_secret = "n53UGl05vCeLGz1H";
           const url =
@@ -45,12 +44,10 @@ app.post("/deposit", async (req, res, next) => {
           
             const timestamp = formatDate();
             const shortcode = 4097295;
-            const passkey =
-              "1bbf1ad26591bc48bca5faf176845a5feb3c929d96097ae77d3f45a84e2c339e";
+            const passkey ="1bbf1ad26591bc48bca5faf176845a5feb3c929d96097ae77d3f45a84e2c339e";
             const password = Buffer.from(
               shortcode + passkey + timestamp
             ).toString("base64");
-
             let dt = JSON.stringify({
                   BusinessShortCode: shortcode,
                   Password: password,
@@ -121,7 +118,7 @@ app.post("/withdraw", async (req, res, next) => {
                   PartyB:  parseInt(phone),
                   Remarks: `Withdrawal: ${account.user.username}-${phone}`,
                   QueueTimeOutURL: "https://www.safaribust.co.ke/pesaxpress/B2C/timeout.php",
-                  ResultURL: "https://api-safbust.herokuapp.com/cb/result", //https://www.safaribust.co.ke/pesaxpress/B2C/result.php
+                  ResultURL: "http://https://sb-transactions-5tlj.onrender.com/cb/result", //https://www.safaribust.co.ke/pesaxpress/B2C/result.php
                   Occassion: `Withdrawal: ${account.user.username}-${phone}`,
                 })
 
@@ -153,7 +150,7 @@ app.post("/withdraw", async (req, res, next) => {
                             conversationID:result.data.ConversationID,
                             username:user.username,
                             balance:account?.balance
-                          })
+                          })  
                   await trans.save()
                   const log = new Logs({
                     ip: ipAddress,
@@ -176,6 +173,7 @@ app.post("/withdraw", async (req, res, next) => {
 
 app.post("/cb/result", async(req,res,next)=>{
   let response = req.body.Result
+  console.log(response);
    if(response.ConversationID) {
     const trans= await Transaction.findOne({conversationID:response.ConversationID})
     trans.trans_id = response.TransactionID
@@ -194,7 +192,6 @@ app.post("/status", async(req,res,next)=>{
     if(transaction){
       return res.status(200).json({status:200, message:"Already deposited"})
     }
-
 })
 
 app.get("/data",(req,res)=>{
