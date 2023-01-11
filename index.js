@@ -118,7 +118,7 @@ app.post("/withdraw", async (req, res, next) => {
                   PartyB:  parseInt(phone),
                   Remarks: `Withdrawal: ${account.user.username}-${phone}`,
                   QueueTimeOutURL: "https://www.safaribust.co.ke/pesaxpress/B2C/timeout.php",
-                  ResultURL: "http://https://sb-transactions-5tlj.onrender.com/cb/result", //https://www.safaribust.co.ke/pesaxpress/B2C/result.php
+                  ResultURL: "http://https://sb-transactions-5tlj.onrender.com/cb/result",
                   Occassion: `Withdrawal: ${account.user.username}-${phone}`,
                 })
 
